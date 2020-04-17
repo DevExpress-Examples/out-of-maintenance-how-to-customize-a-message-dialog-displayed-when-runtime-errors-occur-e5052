@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.XtraEditors;
 using DevExpress.Spreadsheet;
+using DevExpress.Portable;
 #endregion #usings
 
 
@@ -21,13 +22,13 @@ namespace MessageBoxServiceExample
         }
 
         // To test: select a range of cells with and without data validation settings and click Data Validation command to invoke the Data Validation dialog.
-        public DialogResult ShowYesNoCancelMessage(string message) {
+        public PortableDialogResult ShowYesNoCancelMessage(string message) {
             string mymessage = "Aktion auswählen\n\n" + message;
-            return XtraMessageBox.Show(lookAndFeel, control, mymessage, Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+            return (PortableDialogResult)XtraMessageBox.Show(lookAndFeel, control, mymessage, Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
         }
 
         // To test: enter incorrect data into a cell with a data validation rule applied. 
-        public DialogResult ShowDataValidationDialog(string message, string title, DataValidationErrorStyle errorStyle) {
+        public PortableDialogResult ShowDataValidationDialog(string message, string title, DataValidationErrorStyle errorStyle) {
             string mymessage = "Der eingegebene Wert ist ungültig.\n\n" + message;
             MessageBoxButtons buttons;
             MessageBoxIcon icon;
@@ -41,15 +42,17 @@ namespace MessageBoxServiceExample
                 buttons = MessageBoxButtons.OKCancel;
                 icon = MessageBoxIcon.Information;
             }
-            return XtraMessageBox.Show(lookAndFeel, control, mymessage, title, buttons, icon);
+            return (PortableDialogResult)XtraMessageBox.Show(lookAndFeel, control, mymessage, title, buttons, icon);
         }
 
         // To test: click the Test button or try to set the row height to 1000.
-        public DialogResult ShowMessage(string message, string title, MessageBoxIcon icon) {
-            string mymessage = "Ein Fehler tritt auf.\n\n" + message;
-            return XtraMessageBox.Show(lookAndFeel, control, mymessage, title, MessageBoxButtons.OK, icon);
+        public PortableDialogResult ShowMessage(string message, string title, PortableMessageBoxIcon icon)
+        {
+            string myMessage = "Ein Fehler tritt auf.\n\n" + message;
+            var myIcon = (MessageBoxIcon)icon;
+            return (PortableDialogResult)XtraMessageBox.Show(lookAndFeel, control, myMessage, title, MessageBoxButtons.OK, myIcon);
         }
-        
+
         // Not in use; use ShowMessage instead.
         public DialogResult ShowWarningMessage(string message)
         {
